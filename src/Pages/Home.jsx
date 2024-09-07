@@ -7,6 +7,7 @@ const Home = () => {
 
     const [countries, error, loading]= useCountryData()
     const [visited, setVisited] = useState([])
+    const [check, setCheck] = useState(false)
     console.log(countries)
 
     if(loading){
@@ -16,6 +17,8 @@ const Home = () => {
     if(error){
         return <p>Error: {error}</p>
     }
+
+    const selectedCountries = check? countries : countries.slice(0,4)
 
     const handleVisit = (name)=>{
         const arr =[...visited]
@@ -34,9 +37,12 @@ const Home = () => {
 
             <div className="mx-10 mt-10 grid gap-5 lg:gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {
-                    countries.map((country)=> <CountryCard key={country.name.common} country={country} handleVisit={handleVisit} visited={visited} />)
+                    selectedCountries.map((country)=> <CountryCard key={country.name.common} country={country} handleVisit={handleVisit} visited={visited} />)
                 }
             </div>
+            {
+                check ? <button onClick={()=> setCheck(!check)} className="my-5 btn btn-accent btn-sm btn-outline">See less</button> : <button onClick={()=> setCheck(!check)} className="my-5 btn btn-accent btn-sm btn-outline">See all</button>
+            }
         </div>
     );
 };
@@ -45,3 +51,5 @@ export default Home;
 
 // const a = [{}, {}, {}, {}]
 // const a = [5,4,7,9,8] a.length
+// array.slice(start, end)
+//a.slice(0,3) output: [5,4,7]
