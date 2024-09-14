@@ -1,12 +1,13 @@
 import { useState } from "react";
 import CountryCard from "../Components/CountryCard";
 import useCountryData from "../Hooks/useCountryData";
+import { getVisited, saveVisited } from "../Utilities/LOcalStorage";
 
 
 const Home = () => {
 
     const [countries, error, loading]= useCountryData()
-    const [visited, setVisited] = useState([])
+    const [visited, setVisited] = useState(getVisited())
     const [check, setCheck] = useState(false)
     console.log(countries)
 
@@ -22,10 +23,10 @@ const Home = () => {
 
     const handleVisit = (name)=>{
         const arr =[...visited]
-
         if(!arr.includes(name)){
             arr.push(name)
             setVisited(arr)
+            saveVisited(name)
         }
     }
 
